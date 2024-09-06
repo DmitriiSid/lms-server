@@ -37,7 +37,14 @@ const limiter = rateLimit({
 })
 
 // routes 
-app.use("/api/v1", userRouter, notificationRouter, courseRouter, orderRouter, analyticsRouter, layoutRouter);
+app.use("/api/v1",
+    userRouter,
+    notificationRouter,
+    courseRouter,
+    orderRouter,
+    analyticsRouter,
+    layoutRouter
+);
 
 // testing api 
 app.get("/test", (req: Request, res: Response, next: NextFunction) => {
