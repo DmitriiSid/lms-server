@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(
     cors({
         //origin: ['http://localhost:3000'],
-        origin: ['lms-client-coral.vercel.app'],
+        origin: ['https://lms-client-coral.vercel.app'],
         credentials: true,
     })
 );
