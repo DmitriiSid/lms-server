@@ -12,18 +12,26 @@ const redis_1 = require("../utils/redis");
 exports.isAuthenticated = (0, catchAsyncError_1.CatchAsyncError)(async (req, res, next) => {
     const access_token = req.cookies.access_token;
     if (!access_token) {
-        return next(new ErrorHandler_1.default("Please login to access this resource", 400));
+        return next(new ErrorHandler_1.default("Please login to access this resource", 401)); // Change status to 401
     }
-    const decoded = jsonwebtoken_1.default.verify(access_token, process.env.ACCESS_TOKEN);
-    if (!decoded) {
-        return next(new ErrorHandler_1.default("Access token is not valid", 400));
+    try {
+        // Verify JWT
+        const decoded = jsonwebtoken_1.default.verify(access_token, process.env.ACCESS_TOKEN);
+        if (!decoded) {
+            return next(new ErrorHandler_1.default("Access token is not valid", 401)); // Change status to 401
+        }
+        // Fetch user from Redis by decoded token's ID
+        const user = await redis_1.redis.get(decoded.id);
+        if (!user) {
+            return next(new ErrorHandler_1.default("Please login to access this resource", 401)); // Change status to 401
+        }
+        // Attach user to the request object
+        req.user = JSON.parse(user);
+        next();
     }
-    const user = await redis_1.redis.get(decoded.id);
-    if (!user) {
-        return next(new ErrorHandler_1.default("Please login to access this resource", 400));
+    catch (error) {
+        return next(new ErrorHandler_1.default("Invalid or expired token", 401)); // Catch verification errors
     }
-    req.user = JSON.parse(user);
-    next();
 });
 // validate user role 
 const authorizeRoles = (...roles) => {
