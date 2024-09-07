@@ -21,8 +21,7 @@ export const accessTokenOptions: ITokenOptions = {
     maxAge: accessTokenExpire * 60 * 60 * 1000, // maxAge is in milliseconds
     httpOnly: true,
     sameSite: 'none',
-    secure: true,
-    //secure: process.env.NODE_ENV === 'production', // Secure in production
+    secure: true
 };
 
 export const refreshTokenOptions: ITokenOptions = {
@@ -30,8 +29,7 @@ export const refreshTokenOptions: ITokenOptions = {
     maxAge: refreshTokenExpire * 24 * 60 * 60 * 1000, // maxAge is in milliseconds
     httpOnly: true,
     sameSite: 'none',
-    secure: true,
-    //secure: process.env.NODE_ENV === 'production', // Secure in production
+    secure: true
 };
 
 export const sendToken = (user: IUser, statusCode: number, res: Response) => {
@@ -56,4 +54,4 @@ export const sendToken = (user: IUser, statusCode: number, res: Response) => {
         user,
         accessToken,
     });
-}
+};

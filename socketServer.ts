@@ -6,7 +6,7 @@ export const initSocketServer = (server: http.Server) => {
         transports: ['websocket', 'polling'], // prioritize WebSocket over polling
         cors: {
             origin: process.env.NEXT_PUBLIC_SOCKET_SERVER_URI, // allow requests from this origin
-            methods: ["GET", "POST"],
+            methods: ["GET", "POST", "PUT", "DELETE"], // allow these methods
             credentials: true,
         }
     });

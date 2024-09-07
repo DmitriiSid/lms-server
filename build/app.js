@@ -23,9 +23,8 @@ exports.app.use(express_1.default.json({ limit: "50mb" }));
 exports.app.use((0, cookie_parser_1.default)());
 // cors => cross origin resource sharing
 exports.app.use((0, cors_1.default)({
-    //origin: ['http://localhost:3000'],
-    origin: ['https://lms-client-coral.vercel.app'],
-    credentials: true,
+    origin: 'https://lms-client-coral.vercel.app', // Your frontend URL
+    credentials: true, // Allows cookies and credentials to be sent
 }));
 // api request rate limiter
 const limiter = (0, express_rate_limit_1.rateLimit)({

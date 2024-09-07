@@ -20,13 +20,10 @@ app.use(cookieParser());
 
 // cors => cross origin resource sharing
 
-app.use(
-    cors({
-        //origin: ['http://localhost:3000'],
-        origin: ['https://lms-client-coral.vercel.app'],
-        credentials: true,
-    })
-);
+app.use(cors({
+    origin: 'https://lms-client-coral.vercel.app', // Your frontend URL
+    credentials: true, // Allows cookies and credentials to be sent
+}));
 
 // api request rate limiter
 const limiter = rateLimit({
