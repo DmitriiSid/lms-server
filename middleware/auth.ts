@@ -9,32 +9,25 @@ export const isAuthenticated = CatchAsyncError(async (req: Request, res: Respons
     const access_token = req.cookies.access_token;
 
     if (!access_token) {
-        return next(new ErrorHandler("Please login to access this resource", 401)); // Change status to 401
+        return next(new ErrorHandler("Please login to access this resource", 400));
     }
 
-    try {
-        // Verify JWT
-        const decoded = jwt.verify(access_token, process.env.ACCESS_TOKEN as string) as JwtPayload;
+    const decoded = jwt.verify(access_token, process.env.ACCESS_TOKEN as string) as JwtPayload;
 
-        if (!decoded) {
-            return next(new ErrorHandler("Access token is not valid", 401)); // Change status to 401
-        }
-
-        // Fetch user from Redis by decoded token's ID
-        const user = await redis.get(decoded.id);
-
-        if (!user) {
-            return next(new ErrorHandler("Please login to access this resource", 401)); // Change status to 401
-        }
-
-        // Attach user to the request object
-        req.user = JSON.parse(user);
-
-        next();
-    } catch (error) {
-        return next(new ErrorHandler("Invalid or expired token", 401)); // Catch verification errors
+    if (!decoded) {
+        return next(new ErrorHandler("Access token is not valid", 400));
     }
+
+    const user = await redis.get(decoded.id);
+    if (!user) {
+        return next(new ErrorHandler("Please login to access this resource", 400));
+    }
+
+    req.user = JSON.parse(user);
+
+    next()
 });
+
 
 // validate user role 
 
