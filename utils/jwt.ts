@@ -7,7 +7,7 @@ interface ITokenOptions {
     expires: Date;
     maxAge: number;
     httpOnly: boolean;
-    sameSite: 'lax' | 'strict' | 'none' | undefined;
+    sameSite: "lax" | "strict" | "none" | undefined;
     secure?: boolean;
 }
 //parse  environment veriables to integrates with fallback values 
@@ -20,7 +20,7 @@ export const accessTokenOptions: ITokenOptions = {
     expires: new Date(Date.now() + accessTokenExpire * 60 * 60 * 1000),
     maxAge: accessTokenExpire * 60 * 60 * 1000, // maxAge is in milliseconds
     httpOnly: true,
-    sameSite: 'none',
+    sameSite: "none",
     secure: true
 };
 
@@ -28,7 +28,7 @@ export const refreshTokenOptions: ITokenOptions = {
     expires: new Date(Date.now() + refreshTokenExpire * 24 * 60 * 60 * 1000),
     maxAge: refreshTokenExpire * 24 * 60 * 60 * 1000, // maxAge is in milliseconds
     httpOnly: true,
-    sameSite: 'none',
+    sameSite: "none",
     secure: true
 };
 
